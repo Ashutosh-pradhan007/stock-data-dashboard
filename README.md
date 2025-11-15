@@ -1,7 +1,13 @@
 🧠 Stock Data Dashboard
 FastAPI • Bootstrap • Chart.js • CSV Market Data
+📸 Screenshots
+🔹 Dashboard (Dark Mode)
+
 <img width="1893" height="967" alt="image" src="https://github.com/user-attachments/assets/40e9ebb7-d326-4fa6-b70d-808a5ea9ab6a" />
 
+🔹 Dashboard (Light Mode)
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6ea0cd98-6917-436c-a5b5-fdd41c858a9d" />
 
 🚀 Overview
 
@@ -128,14 +134,6 @@ Endpoint	Description
 /data/{symbol}	Get latest 30-day data
 /summary/{symbol}	Summary metrics
 /compare?symbol1=A&symbol2=B	Compare two stocks
-📸 Screenshots
-🔹 Dashboard (Dark Mode)
-
-(Add your screenshot here)
-
-🔹 Dashboard (Light Mode)
-
-(Add your screenshot here)
 
 📜 License
 

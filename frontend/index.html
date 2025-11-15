@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StockDash — Production UI</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm mb-3">
+    <div class="container-lg">
+      <a class="navbar-brand fw-bold" href="#">📈 StockDash</a>
+      <div class="d-flex align-items-center gap-2">
+        <div class="form-check form-switch me-2">
+          <input class="form-check-input" type="checkbox" id="themeToggle">
+          <label class="form-check-label small" for="themeToggle">Dark</label>
+        </div>
+        <button id="exportBtn" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-download me-1"></i> Export CSV
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-lg">
+    <div class="row g-3 align-items-center mb-3">
+      <div class="col-lg-4">
+        <div class="position-relative">
+          <input id="searchInput" placeholder="Search symbol or company (e.g., TCS, INFY)"
+                 class="form-control" aria-label="Search symbol" />
+          <div id="suggestions" class="list-group mt-1 position-absolute shadow-lg d-none"></div>
+        </div>
+      </div>
+
+      <div class="col-auto">
+        <select id="symbolSelect" class="form-select" aria-label="Select symbol"></select>
+      </div>
+
+      <div class="col-auto">
+        <button id="loadBtn" class="btn btn-primary">Load</button>
+        <button id="openCompare" class="btn btn-outline-primary ms-1">Compare</button>
+      </div>
+
+      <div class="col-lg-3 col-md-4 ms-auto">
+        <input id="rangePicker" placeholder="Filter by date range..." class="form-control">
+      </div>
+    </div>
+
+    <section class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 mb-4 metrics g-3">
+      <div class="col">
+        <div class="card shadow-sm metric-card">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-cash-coin metric-icon text-success"></i>
+              <div>
+                <small class="text-muted">Last Close</small>
+                <div id="m-last" class="h4 fw-bold mb-0">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm metric-card">
+          <div class="card-body">
+             <div class="d-flex align-items-center">
+              <i class="bi bi-bar-chart-line metric-icon text-primary"></i>
+              <div>
+                <small class="text-muted">7-day MA</small>
+                <div id="m-ma7" class="h4 fw-bold mb-0">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm metric-card">
+          <div class="card-body">
+             <div class="d-flex align-items-center">
+              <i class="bi bi-activity metric-icon text-warning"></i>
+              <div>
+                <small class="text-muted">Volatility (30d)</small>
+                <div id="m-vol" class="h4 fw-bold mb-0">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm metric-card">
+          <div class="card-body">
+             <div class="d-flex align-items-center">
+              <i class="bi bi-arrows-vertical metric-icon text-info"></i>
+              <div>
+                <small class="text-muted">52-week High / Low</small>
+                <div id="m-52" class="h5 fw-semibold mb-0">— / —</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm metric-card">
+          <div class="card-body">
+             <div class="d-flex align-items-center">
+              <i class="bi bi-graph-up metric-icon text-daily"></i>
+              <div>
+                <small class="text-muted">Daily Return</small>
+                <div id="m-daily" class="h4 fw-bold mb-0">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card shadow-sm mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 id="chartTitle" class="mb-0 text-primary-emphasis">Price (last 30 days)</h6>
+          <div class="small text-muted fst-italic">Interactive | Zoom & Pan</div>
+        </div>
+        <div style="height:420px; position: relative;">
+          <canvas id="mainChart"></canvas>
+          <div id="chartLoading" class="spinner-border text-primary position-absolute top-50 start-50 d-none"></div>
+        </div>
+        <div id="chartError" class="alert alert-danger d-none mt-3" role="alert"></div>
+      </div>
+    </section>
+
+    <section id="compareArea" class="mb-4 d-none">
+      <h5>Compare Results</h5>
+      <div id="compareCards" class="row g-3"></div>
+    </section>
+
+    <footer class="text-muted text-center mt-4 small">© StockDash — demo</footer>
+  </main>
+
+  <div class="modal fade" id="compareModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Compare Symbols</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <label for="compareSelect" class="form-label small">Compare with:</label>
+          <select id="compareSelect" class="form-select mb-3"></select>
+          <div class="d-grid">
+            <button id="compareGo" class="btn btn-primary">Compare</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>

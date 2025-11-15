@@ -1,186 +1,147 @@
-📊 StockDash — Stock Data Intelligence Platform
+🧠 Stock Data Dashboard
+FastAPI • Bootstrap • Chart.js • CSV Market Data
+<img width="1893" height="967" alt="image" src="https://github.com/user-attachments/assets/40e9ebb7-d326-4fa6-b70d-808a5ea9ab6a" />
 
-A complete end-to-end stock analysis dashboard built using FastAPI, Pandas, HTML/CSS/JS, and Chart.js.
-Created as part of the Software Intern Assignment for Jarnox Software.
 
-🚀 Features
-✅ Backend (FastAPI + Pandas)
+🚀 Overview
 
-Loads and cleans CSV datasets
+A production-ready Stock Market Analytics Dashboard built using:
 
-Computes:
+FastAPI (Backend API)
 
-7-day Moving Average
+Bootstrap 5 (Frontend UI)
 
-Daily Return
+Chart.js + Zoom Plugin (Interactive Charts)
 
-30-day Volatility
+CSV Data (Local historical stock prices)
 
-52-week High / Low
+Fuse.js (Fast fuzzy search)
 
-API Endpoints:
+Flatpickr (Date Range picker)
 
-/companies — list companies
+This dashboard allows users to:
 
-/data/{symbol} — 30-day stock dataset
-
-/summary/{symbol} — summary metrics
-
-/compare?symbol1=A&symbol2=B — compare stocks
-
-Optimized JSON output
-
-Ready for production deployment
-
-🌐 Frontend (Production UI)
-
-Sleek, stock-market inspired UI
-
-Dark / Light theme toggle
-
-Search with fuzzy matching (Fuse.js)
-
-Date range filter (Flatpickr)
-
-Interactive Chart.js graph
-
-Zoom
-
-Pan
-
-Tooltips
-
-Metrics dashboard
-
-Last Close
-
-7-day MA
-
-Volatility
-
-52-week High / Low
-
-Daily Return
-
-Compare two symbols side-by-side
-
-CSV Export
-
-Fully responsive
-
-User-friendly design
-
-🛠 Tech Stack
-Backend
-
-Python
-
-FastAPI
-
-Pandas
-
-NumPy
-
-Uvicorn
-
-Frontend
-
-HTML5
-
-CSS3
-
-JavaScript
-
-Bootstrap 5
-
-Chart.js (+ Zoom Plugin)
-
-Flatpickr
-
-Fuse.js
+✔ Search stocks
+✔ Load 30-day market data
+✔ View interactive line charts
+✔ Compare two stocks side-by-side
+✔ Export data as CSV
+✔ Filter data by date
+✔ Toggle Light/Dark UI themes
+✔ View daily metrics (MA7, Volatility, High/Low, Daily Return)
 
 📂 Project Structure
-stock-dashboard/
-│── app.py
-│── utils.py
-│── requirements.txt
-│── README.md
-│── data/
-│     ├── RELIANCE.csv
-│     └── TCS.csv
+stock-data-dashboard/
+│── app.py                # FastAPI backend
+│── utils.py              # CSV loading & metrics
+│── requirements.txt      # Python dependencies
+│── data/                 # Local CSV files (TCS.csv, RELIANCE.csv)
 │── frontend/
-      ├── index.html
-      ├── app.js
-      ├── style.css
-      └── logo.png (optional)
+│     ├── index.html
+│     ├── style.css
+│     └── app.js
+│── README.md
+│── LICENSE
+│── .gitignore
 
-▶️ How to Run
-1️⃣ Create virtual environment
+🔧 Installation & Setup
+1. Clone the repository
+git clone https://github.com/Ashutosh-pradhan007/stock-data-dashboard.git
+cd stock-data-dashboard
+
+2. Create virtual environment
 python -m venv venv
 
-2️⃣ Activate environment
+
+Activate:
 
 Windows
 
 venv\Scripts\activate
 
-3️⃣ Install dependencies
+
+Linux/Mac
+
+source venv/bin/activate
+
+3. Install dependencies
 pip install -r requirements.txt
 
-4️⃣ Start FastAPI backend
+4. Run FastAPI
 uvicorn app:app --reload
 
-5️⃣ Open Dashboard
 
-Visit:
+App will start at:
+👉 http://127.0.0.1:8000
 
+Frontend served at:
 👉 http://127.0.0.1:8000/ui/
 
-📡 API Endpoints
-List Companies
-GET /companies
+📊 Features
+⭐ Stock Search (Fuse.js)
 
-Stock Data (last 30 days)
-GET /data/{symbol}
+Instant fuzzy matching (TCS, INFY, RELIANCE, etc.)
 
-Summary
-GET /summary/{symbol}
+⭐ Metrics Dashboard
 
-Compare
-GET /compare?symbol1=A&symbol2=B
+Last Close
 
-API Docs (Swagger)
+7-day Moving Average
 
-👉 http://127.0.0.1:8000/docs
+30-day Volatility
 
-📈 Technical Indicators
-Metric	Purpose
-7-day Moving Average	Trend smoothing
-Daily Return (%)	Short-term price movement
-Volatility (30d)	Market risk estimation
-52-week High / Low	Range identification
-30-day % Change	Relative performance
-📦 CSV Export
+52-week High/Low
 
-Click Export CSV → downloads the filtered dataset.
+Daily Return %
 
-🌙 Dark Mode
+⭐ Interactive Chart
 
-Stored in localStorage
+Zoom in/out
 
-Automatically applied on refresh
+Pan horizontally
 
-🧪 Possible Future Enhancements
+Smooth line chart
 
-Database integration
+Hover tooltips
 
-Live WebSocket market updates
+⭐ Compare Two Stocks
 
-User profiles
+Percentage change (30 days)
 
-Deploy on AWS / Render
+Last closing price
 
-👨‍💻 Author
+⭐ Export Data
+
+One-click CSV export of displayed data
+
+⭐ Light / Dark Mode
+
+Persistent theme saved in localStorage
+
+⭐ Date-Range Filtering
+
+Filter graph & metrics to custom date range
+
+📦 API Endpoints (FastAPI)
+Endpoint	Description
+/companies	List all available symbols
+/data/{symbol}	Get latest 30-day data
+/summary/{symbol}	Summary metrics
+/compare?symbol1=A&symbol2=B	Compare two stocks
+📸 Screenshots
+🔹 Dashboard (Dark Mode)
+
+(Add your screenshot here)
+
+🔹 Dashboard (Light Mode)
+
+(Add your screenshot here)
+
+📜 License
+
+This project is open-source and available under the MIT License.
+
+🙌 Author
 
 Ashutosh Pradhan
-Software Intern Candidate
+GitHub: https://github.com/Ashutosh-pradhan007
